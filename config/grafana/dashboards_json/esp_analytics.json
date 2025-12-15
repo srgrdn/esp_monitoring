@@ -1,244 +1,1048 @@
 {
-  "id": null,
-  "title": "ESP Analytics",
-  "timezone": "browser",
-  "schemaVersion": 38,
-  "version": 1,
-  "refresh": "10s",
-  "tags": ["esp", "analytics"],
-  "templating": {
+  "annotations": {
     "list": [
       {
-        "name": "device",
-        "type": "query",
-        "label": "Device",
-        "datasource": "VictoriaMetrics",
-        "query": "label_values(rssi, instance)",
-        "includeAll": true,
-        "allValue": ".*",
-        "multi": true,
-        "refresh": 1,
-        "current": {
-          "selected": true,
-          "text": "All",
-          "value": ".*"
-        }
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
     ]
   },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
   "panels": [
     {
-      "type": "stat",
-      "title": "Current status snapshot",
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 0 },
-      "targets": [
-        { "expr": "last_over_time(rssi{instance=~\"$device\"}[5m])", "refId": "A" },
-        { "expr": "last_over_time(temp{instance=~\"$device\"}[5m])", "refId": "B" },
-        { "expr": "last_over_time(rtt{instance=~\"$device\"}[5m])", "refId": "C" },
-        { "expr": "last_over_time(packet_loss{instance=~\"$device\"}[5m])", "refId": "D" },
-        { "expr": "last_over_time(http_status{instance=~\"$device\"}[5m])", "refId": "E" },
-        { "expr": "last_over_time(network_type{instance=~\"$device\"}[5m])", "refId": "F" }
-      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "value_and_name"
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "RSSI with thresholds",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
-      "targets": [{ "expr": "rssi{instance=~\"$device\"}" }],
-      "fieldConfig": {
-        "defaults": {
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "red", "value": null },
-              { "color": "red", "value": -90 }
-            ]
-          }
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
         },
-        "overrides": []
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "Temperature with thresholds",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
-      "targets": [{ "expr": "temp{instance=~\"$device\"}" }],
-      "fieldConfig": {
-        "defaults": {
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 15 },
-              { "color": "red", "value": 30 }
-            ]
-          }
-        },
-        "overrides": []
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "RTT and Packet Loss (dual axis)",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.0",
       "targets": [
-        { "expr": "rtt{instance=~\"$device\"}", "refId": "A" },
-        { "expr": "packet_loss{instance=~\"$device\"}", "refId": "B" }
+        {
+          "expr": "last_over_time(rssi{instance=~\"$device\"}[5m])",
+          "refId": "A"
+        },
+        {
+          "expr": "last_over_time(temp{instance=~\"$device\"}[5m])",
+          "refId": "B"
+        },
+        {
+          "expr": "last_over_time(rtt{instance=~\"$device\"}[5m])",
+          "refId": "C"
+        },
+        {
+          "expr": "last_over_time(packet_loss{instance=~\"$device\"}[5m])",
+          "refId": "D"
+        },
+        {
+          "expr": "last_over_time(http_status{instance=~\"$device\"}[5m])",
+          "refId": "E"
+        },
+        {
+          "expr": "last_over_time(network_type{instance=~\"$device\"}[5m])",
+          "refId": "F"
+        }
       ],
+      "title": "Current status snapshot",
+      "type": "stat"
+    },
+    {
       "fieldConfig": {
-        "defaults": { "custom": { "drawStyle": "lines", "lineWidth": 2 } },
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -90
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 4
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "expr": "rssi{instance=~\"$device\"}",
+          "refId": "A"
+        }
+      ],
+      "title": "RSSI with thresholds",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 15
+              },
+              {
+                "color": "red",
+                "value": 30
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 4
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "expr": "temp{instance=~\"$device\"}",
+          "refId": "A"
+        }
+      ],
+      "title": "Temperature with thresholds",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "lines",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "B" },
+            "matcher": {
+              "id": "byName",
+              "options": "B"
+            },
             "properties": [
-              { "id": "custom.axisPlacement", "value": "right" },
-              { "id": "custom.lineWidth", "value": 2 },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              },
               {
                 "id": "thresholds",
                 "value": {
                   "mode": "absolute",
                   "steps": [
-                    { "color": "green", "value": null },
-                    { "color": "red", "value": 5 }
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 5
+                    }
                   ]
                 }
               }
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "A" },
+            "matcher": {
+              "id": "byName",
+              "options": "A"
+            },
             "properties": [
               {
                 "id": "thresholds",
                 "value": {
                   "mode": "absolute",
                   "steps": [
-                    { "color": "green", "value": null },
-                    { "color": "yellow", "value": 200 },
-                    { "color": "red", "value": 400 }
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 200
+                    },
+                    {
+                      "color": "red",
+                      "value": 400
+                    }
                   ]
                 }
               }
             ]
           }
         ]
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "HTTP status over time",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
-      "targets": [{ "expr": "http_status{instance=~\"$device\"}" }]
-    },
-    {
-      "type": "timeseries",
-      "title": "RTT vs RSSI (overlay)",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 20 },
-      "targets": [
-        { "expr": "rtt{instance=~\"$device\"}", "refId": "A" },
-        { "expr": "rssi{instance=~\"$device\"}", "refId": "B" }
-      ],
-      "fieldConfig": {
-        "defaults": { "custom": { "drawStyle": "lines", "lineWidth": 2 } },
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "B" },
-            "properties": [
-              { "id": "custom.axisPlacement", "value": "right" }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "RSSI vs Temp (overlay)",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
-      "targets": [
-        { "expr": "rssi{instance=~\"$device\"}", "refId": "A" },
-        { "expr": "temp{instance=~\"$device\"}", "refId": "B" }
-      ],
-      "fieldConfig": {
-        "defaults": { "custom": { "drawStyle": "lines", "lineWidth": 2 } },
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "B" },
-            "properties": [
-              { "id": "custom.axisPlacement", "value": "right" }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Min/Max/Avg (last 30m)",
-      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 28 },
-      "targets": [
-        { "expr": "min_over_time(rssi{instance=~\"$device\"}[30m])", "refId": "A" },
-        { "expr": "max_over_time(rssi{instance=~\"$device\"}[30m])", "refId": "B" },
-        { "expr": "avg_over_time(rssi{instance=~\"$device\"}[30m])", "refId": "C" },
-        { "expr": "min_over_time(temp{instance=~\"$device\"}[30m])", "refId": "D" },
-        { "expr": "max_over_time(temp{instance=~\"$device\"}[30m])", "refId": "E" },
-        { "expr": "avg_over_time(temp{instance=~\"$device\"}[30m])", "refId": "F" },
-        { "expr": "avg_over_time(rtt{instance=~\"$device\"}[30m])", "refId": "G" },
-        { "expr": "avg_over_time(packet_loss{instance=~\"$device\"}[30m])", "refId": "H" }
-      ],
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "id": 4,
       "options": {
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "orientation": "horizontal",
-        "textMode": "value_and_name"
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "RTT p95 / p99 (15m window)",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 34 },
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0",
       "targets": [
-        { "expr": "quantile_over_time(0.95, rtt{instance=~\"$device\"}[15m])", "refId": "A" },
-        { "expr": "quantile_over_time(0.99, rtt{instance=~\"$device\"}[15m])", "refId": "B" }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Alerts fired (per minute)",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 34 },
-      "targets": [
-        { "expr": "sum by (alertname) (increase(ALERTS{alertstate=\"firing\"}[1m]))" }
+        {
+          "expr": "rtt{instance=~\"$device\"}",
+          "refId": "A"
+        },
+        {
+          "expr": "packet_loss{instance=~\"$device\"}",
+          "refId": "B"
+        }
       ],
+      "title": "RTT and Packet Loss (dual axis)",
+      "type": "timeseries"
+    },
+    {
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "red", "value": 1 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
             ]
           }
         },
         "overrides": []
-      }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "expr": "http_status{instance=~\"$device\"}",
+          "refId": "A"
+        }
+      ],
+      "title": "HTTP status over time",
+      "type": "timeseries"
     },
     {
-      "type": "table",
-      "title": "Latest per instance (5m window)",
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 42 },
-      "targets": [
-        { "expr": "last_over_time(rssi{instance=~\"$device\"}[5m])", "refId": "A" },
-        { "expr": "last_over_time(temp{instance=~\"$device\"}[5m])", "refId": "B" },
-        { "expr": "last_over_time(rtt{instance=~\"$device\"}[5m])", "refId": "C" },
-        { "expr": "last_over_time(packet_loss{instance=~\"$device\"}[5m])", "refId": "D" },
-        { "expr": "last_over_time(http_status{instance=~\"$device\"}[5m])", "refId": "E" },
-        { "expr": "last_over_time(network_type{instance=~\"$device\"}[5m])", "refId": "F" }
-      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "lines",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
+      "id": 6,
       "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "expr": "rtt{instance=~\"$device\"}",
+          "refId": "A"
+        },
+        {
+          "expr": "rssi{instance=~\"$device\"}",
+          "refId": "B"
+        }
+      ],
+      "title": "RTT vs RSSI (overlay)",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "lines",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "expr": "rssi{instance=~\"$device\"}",
+          "refId": "A"
+        },
+        {
+          "expr": "temp{instance=~\"$device\"}",
+          "refId": "B"
+        }
+      ],
+      "title": "RSSI vs Temp (overlay)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 28
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "expr": "min_over_time(rssi{instance=~\"$device\"}[30m])",
+          "refId": "A"
+        },
+        {
+          "expr": "max_over_time(rssi{instance=~\"$device\"}[30m])",
+          "refId": "B"
+        },
+        {
+          "expr": "avg_over_time(rssi{instance=~\"$device\"}[30m])",
+          "refId": "C"
+        },
+        {
+          "expr": "min_over_time(temp{instance=~\"$device\"}[30m])",
+          "refId": "D"
+        },
+        {
+          "expr": "max_over_time(temp{instance=~\"$device\"}[30m])",
+          "refId": "E"
+        },
+        {
+          "expr": "avg_over_time(temp{instance=~\"$device\"}[30m])",
+          "refId": "F"
+        },
+        {
+          "expr": "avg_over_time(rtt{instance=~\"$device\"}[30m])",
+          "refId": "G"
+        },
+        {
+          "expr": "avg_over_time(packet_loss{instance=~\"$device\"}[30m])",
+          "refId": "H"
+        }
+      ],
+      "title": "Min/Max/Avg (last 30m)",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 28
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "expr": "sum by (alertname) (increase(ALERTS{alertstate=\"firing\"}[1m]))",
+          "refId": "A"
+        }
+      ],
+      "title": "Alerts fired (per minute)",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "expr": "quantile_over_time(0.95, rtt{instance=~\"$device\"}[15m])",
+          "refId": "A"
+        },
+        {
+          "expr": "quantile_over_time(0.99, rtt{instance=~\"$device\"}[15m])",
+          "refId": "B"
+        }
+      ],
+      "title": "RTT p95 / p99 (15m window)",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 43
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 2,
         "showHeader": true,
         "sortBy": []
       },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "expr": "last_over_time(rssi{instance=~\"$device\"}[5m])",
+          "refId": "A"
+        },
+        {
+          "expr": "last_over_time(temp{instance=~\"$device\"}[5m])",
+          "refId": "B"
+        },
+        {
+          "expr": "last_over_time(rtt{instance=~\"$device\"}[5m])",
+          "refId": "C"
+        },
+        {
+          "expr": "last_over_time(packet_loss{instance=~\"$device\"}[5m])",
+          "refId": "D"
+        },
+        {
+          "expr": "last_over_time(http_status{instance=~\"$device\"}[5m])",
+          "refId": "E"
+        },
+        {
+          "expr": "last_over_time(network_type{instance=~\"$device\"}[5m])",
+          "refId": "F"
+        }
+      ],
+      "title": "Latest per instance (5m window)",
       "transformations": [
         {
           "id": "organize",
@@ -253,8 +1057,40 @@
             }
           }
         }
-      ]
+      ],
+      "type": "table"
     }
-  ]
+  ],
+  "preload": false,
+  "refresh": "10s",
+  "schemaVersion": 40,
+  "tags": [
+    "esp",
+    "analytics"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": ".*"
+        },
+        "datasource": "VictoriaMetrics",
+        "includeAll": true,
+        "label": "Device",
+        "multi": true,
+        "name": "device",
+        "query": "label_values(rssi, instance)",
+        "refresh": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "ESP Analytics",
+  "uid": "ef75f8bwwqfb4a",
+  "version": 1,
+  "weekStart": ""
 }
-

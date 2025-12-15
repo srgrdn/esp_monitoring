@@ -73,4 +73,3 @@ if __name__ == "__main__":
     # Expose /metrics on port 9100
     start_http_server(9100)
     generate_metrics()
-
