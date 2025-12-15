@@ -1,0 +1,31 @@
+groups:
+  - name: esp.alerts
+    interval: 10s
+    rules:
+      - alert: LowRSSI
+        expr: rssi < -90
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low cellular signal"
+          description: "RSSI is {{ $value }} dBm (threshold -90)."
+
+      - alert: LowTemperature
+        expr: temp < 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Temperature low"
+          description: "Temperature {{ $value }}°C < 0°C."
+
+      - alert: PacketLossHigh
+        expr: packet_loss > 5
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Packet loss high"
+          description: "Packet loss {{ $value }}% > 5%."
+

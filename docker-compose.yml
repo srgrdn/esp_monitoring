@@ -1,0 +1,79 @@
+version: "3.9"
+
+services:
+  victoria-metrics:
+    image: victoriametrics/victoria-metrics:v1.103.0
+    command:
+      - --retentionPeriod=3
+    ports:
+      - "8428:8428"
+    volumes:
+      - vm-data:/victoria-metrics-data
+
+  vmagent:
+    image: victoriametrics/vmagent:v1.103.0
+    command:
+      - -promscrape.config=/etc/vmagent/config.yml
+      - -remoteWrite.url=http://victoria-metrics:8428/api/v1/write
+    volumes:
+      - ./config/vmagent/config.yml:/etc/vmagent/config.yml:ro
+    depends_on:
+      - victoria-metrics
+      - generator
+    ports:
+      - "8429:8429"
+
+  vmalert:
+    image: victoriametrics/vmalert:v1.103.0
+    command:
+      - -datasource.url=http://victoria-metrics:8428
+      - -notifier.url=http://alertmanager:9093
+      - -rule=/etc/vmalert/rules.yml
+    volumes:
+      - ./config/vmalert/rules.yml:/etc/vmalert/rules.yml:ro
+    depends_on:
+      - victoria-metrics
+      - alertmanager
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+    volumes:
+      - ./config/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    ports:
+      - "9093:9093"
+    depends_on:
+      - mailhog
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Editor
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./config/grafana/dashboards_json:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - victoria-metrics
+
+  generator:
+    build:
+      context: ./generator
+    command: python /app/generator.py
+    ports:
+      - "9100:9100"
+
+volumes:
+  vm-data:
+
