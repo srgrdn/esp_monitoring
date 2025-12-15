@@ -14,7 +14,7 @@
 ## Быстрый старт
 
 ```bash
-cd /home/s_grudinin/code/Ops/monitoring_esp
+cd monitoring_esp
 docker-compose up -d --build
 ```
 
